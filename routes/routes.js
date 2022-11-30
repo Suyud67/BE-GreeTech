@@ -6,7 +6,7 @@ const routes = express();
 const Products = require('../model/products');
 
 // handle form or post method
-routes.use(express.urlencoded({ extended: false }));
+routes.use(express.urlencoded({ extended: false, limit: '5mb' }));
 
 // todo: make routes
 // get data products from database
@@ -20,7 +20,7 @@ routes.get('/products', async (req, res) => {
 });
 
 // get product by id from db
-routes.get('/products/detail/:id', async (req, res) => {
+routes.get('/product/detail/:id', async (req, res) => {
   try {
     const product = await Products.findOne({ _id: req.params.id });
     res.status(200).json({
