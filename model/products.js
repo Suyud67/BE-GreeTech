@@ -4,23 +4,27 @@ const { Schema, model } = mongoose;
 const productsSchema = new Schema({
   user: {
     type: String,
-    required: true,
+    require: true,
   },
   nm_product: {
     type: String,
-    required: true,
+    require: true,
   },
   desc_product: {
     type: String,
-    required: true,
+    require: true,
   },
   img_product: {
     type: String,
-    required: true,
+    require: true,
+  },
+  price_product: {
+    type: Number,
+    require: true,
   },
   date_upload: {
     type: Date,
-    required: true,
+    require: true,
     default: Date.now(),
   },
 });
