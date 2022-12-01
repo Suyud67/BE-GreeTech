@@ -79,6 +79,12 @@ routes.post(
 );
 
 routes.use((req, res, next) => {
-  res.status(404).send('<h1>page note found</h1>');
+  res.status(404).send(
+    `<h1>page note found</h1>
+      <ul>
+        <li>/products</li>
+      </ul>
+    `
+  );
 });
 module.exports = routes;
