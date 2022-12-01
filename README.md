@@ -11,5 +11,5 @@
   - `/product/:id` get a product by id product
   - `/product/add` add product
   
-## Contribute in this API
+## Open Discuss
   If you have any suggestion or idea for this API, you can pull and we will discuss it.
