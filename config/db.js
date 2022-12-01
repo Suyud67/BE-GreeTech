@@ -1,7 +1,8 @@
 const db = require('mongoose');
+require('dotenv').config();
 
 // make a connection to db
-db.connect('mongodb://127.0.0.1:27017/project-capstone', {
+db.connect(process.env.DB_PRODUCTS, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })

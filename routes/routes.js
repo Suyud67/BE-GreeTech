@@ -36,9 +36,12 @@ routes.get('/product/detail/:id', async (req, res) => {
 });
 
 // handle post req from form add product
+
 routes.post(
   '/product/add',
   [
+    // check ext for image upload by user
+    // only accept png, jpg, and jpeg
     check('img_product').custom((value) => {
       // get img value and split it
       const imgChunk = value.split('.');
@@ -51,26 +54,26 @@ routes.post(
     }),
   ],
   async (req, res) => {
-    try {
-      const error = validationResult(req);
-      if (!error.isEmpty()) {
+    const error = validationResult(req);
+    if (!error.isEmpty()) {
+      res.status(400).json({
+        error: true,
+        message: error.array(),
+      });
+    } else {
+      const plant = new Products(req.body);
+      try {
+        await plant.save();
+        res.status(201).json({
+          error: false,
+          message: 'Success to add plant',
+        });
+      } catch (error) {
         res.status(400).json({
           error: true,
-          message: error.array(),
-        });
-      } else {
-        Products.insertMany(req.body, (err, result) => {
-          res.status(201).json({
-            error: false,
-            message: 'Success to add',
-          });
+          message: error.message,
         });
       }
-    } catch (error) {
-      res.status(404).json({
-        error: true,
-        message: error.message,
-      });
     }
   }
 );
