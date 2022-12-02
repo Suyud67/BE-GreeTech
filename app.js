@@ -7,7 +7,6 @@ const routes = require('./routes/routes');
 require('./config/db');
 
 // use routes
-app.use(express.json());
 app.use(routes);
 
 app.listen(port, () => console.log(`http://localhost:${port} is running`));
