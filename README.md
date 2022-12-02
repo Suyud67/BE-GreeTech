@@ -7,9 +7,9 @@
 ## How to use this API?
   Main URL: https://be-greetech.onrender.com <br/>
   You can use this command for using the API:
-  - `/products` for get all products
-  - `/product/:id` get a product by id product
-  - `/product/add` add product
+  - `/products` get all plant product
+  - `/product/detail/:id` get a plant product by id product
+  - `/product/add` add a plant product
   
 ## Open Discuss
   If you have any suggestion or idea for this API, you can pull and we will discuss it.
