@@ -1,5 +1,6 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
+const cors = require('cors');
 const routes = express();
 
 // import model db
@@ -7,6 +8,9 @@ const Products = require('../model/products');
 
 // handle form or post method
 routes.use(express.urlencoded({ extended: false, limit: '5mb' }));
+
+// config cors in express
+routes.use(cors());
 
 // todo: make routes
 // get data products from database
