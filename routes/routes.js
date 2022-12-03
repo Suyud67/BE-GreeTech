@@ -44,48 +44,34 @@ routes.get('/product/add', (req, res) => {
   res.render('form');
 });
 
-routes.post(
-  '/product/add',
-  [
-    // check ext for image upload by user
-    // only accept png, jpg, and jpeg
-    check('img_product').custom((value) => {
-      const parseImg = JSON.parse(value);
-      // get img value and split it
-      const imgChunk = parseImg.split('.');
+routes.post('/product/add', async (req, res) => {
+  const imgPlant = req.body.img_product;
+  const imgChunk = imgPlant.split('.');
+  const extImg = ['jpg', 'png', 'jpeg'];
+  [valueImg, ext] = imgChunk;
 
-      return true;
-    }),
-  ],
-  async (req, res) => {
-    const imgPlant = req.body.img_product;
-    const imgChunk = imgPlant.split('.');
-    const extImg = ['jpg', 'png', 'jpeg'];
-    [valueImg, ext] = imgChunk;
-
-    if (!extImg.includes(ext)) {
-      res.status(400).json({
-        error: true,
-        message: 'Only accept extention .jpg, .png, and .jpeg',
-      });
-      return false;
-    }
-
-    const plant = new Products(req.body);
-    try {
-      await plant.save();
-      res.status(201).json({
-        error: false,
-        message: 'Success to add plant',
-      });
-    } catch (error) {
-      res.status(400).json({
-        error: true,
-        message: error.message,
-      });
-    }
+  if (!extImg.includes(ext)) {
+    res.status(400).json({
+      error: true,
+      message: 'Only accept extention .jpg, .png, and .jpeg',
+    });
+    return false;
   }
-);
+
+  const plant = new Products(req.body);
+  try {
+    await plant.save();
+    res.status(201).json({
+      error: false,
+      message: 'Success to add plant',
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: true,
+      message: error.message,
+    });
+  }
+});
 
 routes.use((req, res, next) => {
   res.status(404).send(
