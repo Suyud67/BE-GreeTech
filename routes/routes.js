@@ -53,35 +53,36 @@ routes.post(
       const parseImg = JSON.parse(value);
       // get img value and split it
       const imgChunk = parseImg.split('.');
-      [valueImg, ext] = imgChunk;
-      const extImg = ['jpg', 'png', 'jpeg'];
-      if (!extImg.includes(ext)) {
-        throw new Error('Only accept extention .jpg, .png, and .jpeg');
-      }
+
       return true;
     }),
   ],
   async (req, res) => {
-    const error = validationResult(req);
-    if (!error.isEmpty()) {
+    const imgPlant = req.body.img_product;
+    const imgChunk = imgPlant.split('.');
+    const extImg = ['jpg', 'png', 'jpeg'];
+    [valueImg, ext] = imgChunk;
+
+    if (!extImg.includes(ext)) {
       res.status(400).json({
         error: true,
-        message: error.array(),
+        message: 'Only accept extention .jpg, .png, and .jpeg',
       });
-    } else {
-      const plant = new Products(req.body);
-      try {
-        await plant.save();
-        res.status(201).json({
-          error: false,
-          message: 'Success to add plant',
-        });
-      } catch (error) {
-        res.status(400).json({
-          error: true,
-          message: error.message,
-        });
-      }
+      return false;
+    }
+
+    const plant = new Products(req.body);
+    try {
+      await plant.save();
+      res.status(201).json({
+        error: false,
+        message: 'Success to add plant',
+      });
+    } catch (error) {
+      res.status(400).json({
+        error: true,
+        message: error.message,
+      });
     }
   }
 );
