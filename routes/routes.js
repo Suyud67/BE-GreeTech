@@ -40,6 +40,9 @@ routes.get('/product/detail/:id', async (req, res) => {
 });
 
 // handle post req from form add product
+routes.get('/product/add', (req, res) => {
+  res.render('form');
+});
 
 routes.post(
   '/product/add',
@@ -47,8 +50,9 @@ routes.post(
     // check ext for image upload by user
     // only accept png, jpg, and jpeg
     check('img_product').custom((value) => {
+      const parseImg = JSON.parse(value);
       // get img value and split it
-      const imgChunk = value.split('.');
+      const imgChunk = parseImg.split('.');
       [valueImg, ext] = imgChunk;
       const extImg = ['jpg', 'png', 'jpeg'];
       if (!extImg.includes(ext)) {
