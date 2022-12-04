@@ -1,6 +1,5 @@
 const express = require('express');
 const multer = require('multer');
-const cors = require('cors');
 const routes = express();
 
 // import model db
@@ -8,9 +7,6 @@ const Products = require('../model/products');
 
 // handle form or post method
 routes.use(express.urlencoded({ extended: false, limit: '3mb' }));
-
-// config cors in express
-routes.use(cors());
 
 // set-up multer
 const storage = multer.diskStorage({
