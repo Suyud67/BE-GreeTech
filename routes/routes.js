@@ -1,9 +1,18 @@
 const express = require('express');
 const multer = require('multer');
+const cors = require('cors');
+
 const routes = express();
 
 // import model db
 const Products = require('../model/products');
+
+// config cors in express
+routes.use(
+  cors({
+    origin: '*',
+  })
+);
 
 // handle form or post method
 routes.use(express.urlencoded({ extended: false, limit: '3mb' }));
