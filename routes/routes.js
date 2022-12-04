@@ -76,7 +76,7 @@ routes.post('/product/add', upload.single('img_product'), async (req, res) => {
       user: req.body.user,
       nm_product: req.body.nm_product,
       desc_product: req.body.desc_product,
-      img_product: `http://localhost:5000/${req.file.path}`,
+      img_product: `https://be-greetech.onrender.com/${req.file.path}`,
       price_product: req.body.price_product || '-',
     });
     try {
