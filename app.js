@@ -8,7 +8,12 @@ const routes = require('./routes/routes');
 require('./config/db');
 
 // config cors in express
-routes.use(cors());
+app.use(
+  cors({
+    origin: '*',
+    methods: ['GET', 'POST'],
+  })
+);
 
 // use routes
 // give public access for folder image upload
