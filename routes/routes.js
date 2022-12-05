@@ -82,7 +82,7 @@ routes.post('/product/add', upload.single('img_product'), async (req, res) => {
       nm_product: req.body.nm_product,
       desc_product: req.body.desc_product,
       img_product: `https://be-greetech.onrender.com/${req.file.path}`,
-      price_product: req.body.price_product || '-',
+      price_product: req.body.price_product || 'Promotion',
     });
     try {
       await plant.save();

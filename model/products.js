@@ -21,7 +21,7 @@ const productsSchema = new Schema({
   price_product: {
     type: String,
     required: true,
-    default: 'Promotion',
+    default: '-',
   },
   date_upload: {
     type: Date,
