@@ -10,7 +10,7 @@ const Products = require('../model/products');
 // config cors in express
 routes.use(
   cors({
-    origin: ['https://be-greetech.onrender.com', 'http://localhost:3000'],
+    origin: ['*', 'http://localhost:3000'],
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'application/json'],
   })
