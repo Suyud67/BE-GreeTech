@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const cors = require('cors');
+const { validationResult, check } = require('express-validator');
 
 const routes = express();
 
@@ -10,7 +11,7 @@ const Products = require('../model/products');
 // config cors in express
 routes.use(
   cors({
-    origin: ['*', 'http://localhost:3000'],
+    origin: '*',
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'application/json'],
   })
@@ -68,11 +69,24 @@ routes.get('/product/detail/:id', async (req, res) => {
 });
 
 // handle post req from form add product
-routes.post('/product/add', upload.single('img_product'), async (req, res) => {
+routes.post('/product/add', [upload.single('img_product'), cors(), check('noHp_user', 'invalid phone number').isMobilePhone('id-ID')], async (req, res) => {
+  // phone number validation
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    res.status(400).json({
+      error: true,
+      message: error.array(),
+    });
+  }
+
+  // image extension validation
+  // first we split file name and ext
   const imgName = req.file.originalname;
   const imgChunk = imgName.split('.');
   const extension = ['jpg', 'png'];
   const [filename, ext] = imgChunk;
+
+  // and check image extension (only jpg and png)
   if (!extension.includes(ext)) {
     res.status(400).json({
       error: true,
@@ -84,6 +98,7 @@ routes.post('/product/add', upload.single('img_product'), async (req, res) => {
       nm_product: req.body.nm_product,
       desc_product: req.body.desc_product,
       img_product: req.file.path,
+      noHp_user: req.body.noHp_user,
       price_product: req.body.price_product || 'Promotion',
     });
     try {
@@ -93,7 +108,7 @@ routes.post('/product/add', upload.single('img_product'), async (req, res) => {
         message: 'Success to add plant',
       });
     } catch (error) {
-      res.status(400).json({
+      res.status(404).json({
         error: true,
         message: error.message,
       });
@@ -101,7 +116,7 @@ routes.post('/product/add', upload.single('img_product'), async (req, res) => {
   }
 });
 
-routes.use((req, res, next) => {
+routes.use((req, res) => {
   res.status(404).send(
     `<h1>page note found</h1>
       <ul>
