@@ -9,13 +9,12 @@ const routes = express();
 const Products = require('../model/products');
 
 // config cors in express
-routes.use(
-  cors({
-    origin: '*',
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'application/json'],
-  })
-);
+routes.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 // handle form or post method
 routes.use(express.urlencoded({ extended: false, limit: '3mb' }));
@@ -69,7 +68,7 @@ routes.get('/product/detail/:id', async (req, res) => {
 });
 
 // handle post req from form add product
-routes.post('/product/add', [upload.single('img_product'), cors(), check('noHp_user', 'invalid phone number').isMobilePhone('id-ID')], async (req, res) => {
+routes.post('/product/add', [upload.single('img_product'), check('noHp_user', 'invalid phone number').isMobilePhone('id-ID')], async (req, res) => {
   // phone number validation
   const error = validationResult(req);
   if (!error.isEmpty()) {
