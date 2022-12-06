@@ -9,16 +9,12 @@ const routes = express();
 const Products = require('../model/products');
 
 // config cors in express
-const whitelist = ['http://localhost:3000', 'https://be-greetech.onrender.com'];
-const corsOptionsDelegate = function (req, callback) {
-  let corsOptions;
-  if (whitelist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
-  } else {
-    corsOptions = { origin: false }; // disable CORS for this request
-  }
-  callback(null, corsOptions); // callback expects two parameters: error and options
-};
+routes.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', ['https://be-greetech.onrender.com', 'http://localhost:3000']);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  next();
+});
 
 // handle form or post method
 routes.use(express.urlencoded({ extended: false, limit: '3mb' }));
@@ -72,7 +68,7 @@ routes.get('/product/detail/:id', async (req, res) => {
 });
 
 // handle post req from form add product
-routes.post('/product/add', [upload.single('img_product'), check('noHp_user', 'invalid phone number').isMobilePhone('id-ID'), cors(corsOptionsDelegate)], async (req, res) => {
+routes.post('/product/add', [upload.single('img_product'), check('noHp_user', 'invalid phone number').isMobilePhone('id-ID')], async (req, res) => {
   // phone number validation
   const error = validationResult(req);
   if (!error.isEmpty()) {
@@ -106,7 +102,7 @@ routes.post('/product/add', [upload.single('img_product'), check('noHp_user', 'i
     });
     try {
       await plant.save();
-      res.status(201).json({
+      res.status(200).json({
         error: false,
         message: 'Success to add plant',
       });
