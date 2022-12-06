@@ -23,6 +23,10 @@ const productsSchema = new Schema({
     required: true,
     default: '-',
   },
+  noHp_user: {
+    type: Number,
+    required: true,
+  },
   date_upload: {
     type: Date,
     required: true,
