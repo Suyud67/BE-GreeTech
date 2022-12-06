@@ -20,12 +20,12 @@ const productsSchema = new Schema({
   },
   price_product: {
     type: String,
-    required: true,
+    required: false,
     default: '-',
   },
   noHp_user: {
     type: Number,
-    required: true,
+    required: false,
   },
   date_upload: {
     type: Date,
