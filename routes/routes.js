@@ -11,7 +11,7 @@ const Products = require('../model/products');
 // config cors in express
 routes.use(
   cors({
-    origin: ['https://be-greetech.onrender.com', 'http://localhost:3000'],
+    origin: '*',
     methods: ['GET', 'POST'],
   })
 );
@@ -68,52 +68,56 @@ routes.get('/product/detail/:id', async (req, res) => {
 });
 
 // handle post req from form add product
-routes.post('/product/add', [upload.single('img_product'), check('noHp_user', 'invalid phone number').isMobilePhone('id-ID')], async (req, res) => {
-  // phone number validation
-  const error = validationResult(req);
-  if (!error.isEmpty()) {
-    res.status(400).json({
-      error: true,
-      message: error.array(),
-    });
-  }
+routes.post(
+  '/product/add',
 
-  // image extension validation
-  // first we split file name and ext
-  const imgName = req.file.originalname;
-  const imgChunk = imgName.split('.');
-  const extension = ['jpg', 'png'];
-  const [filename, ext] = imgChunk;
+  upload.single('img_product'),
 
-  // and check image extension (only jpg and png)
-  if (!extension.includes(ext)) {
-    res.status(400).json({
-      error: true,
-      message: 'only accept jpg and png ext file',
-    });
-  } else {
-    const plant = new Products({
-      user: req.body.user,
-      nm_product: req.body.nm_product,
-      desc_product: req.body.desc_product,
-      img_product: req.file.path,
-      noHp_user: req.body.noHp_user,
-      price_product: req.body.price_product || 'Promotion',
-    });
-    try {
-      await plant.save();
-      res.status(200).json({
-        error: false,
-        message: 'Success to add plant',
-      });
-    } catch (error) {
-      res.status(404).json({
+  async (req, res) => {
+    // image extension validation
+    // first we split file name and ext
+    const imgName = req.file.originalname;
+    const imgChunk = imgName.split('.');
+    const extension = ['jpg', 'png'];
+    const [filename, ext] = imgChunk;
+
+    // phone number validation
+    // const error = validationResult(req);
+    // if (!error.isEmpty()) {
+    //   res.status(400).json({
+    //     error: true,
+    //     message: error.array(),
+    //   });
+    // } else
+    if (!extension.includes(ext)) {
+      res.status(400).json({
         error: true,
-        message: error.message,
+        message: 'only accept jpg and png ext file',
       });
+    } else {
+      const plant = new Products({
+        user: req.body.user,
+        nm_product: req.body.nm_product,
+        desc_product: req.body.desc_product,
+        img_product: req.file.path,
+        noHp_user: req.body.noHp_user,
+        price_product: req.body.price_product || 'Promotion',
+      });
+      try {
+        await plant.save();
+        res.status(200).json({
+          error: false,
+          message: 'Success to add plant',
+        });
+      } catch (error) {
+        res.status(404).json({
+          error: true,
+          message: error.message,
+        });
+      }
     }
   }
-});
+);
 
 routes.use((req, res) => {
   res.status(404).send(
