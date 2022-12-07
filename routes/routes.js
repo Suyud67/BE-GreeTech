@@ -9,12 +9,13 @@ const routes = express();
 const Products = require('../model/products');
 
 // config cors in express
-routes.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://be-greetech.onrender.com');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  next();
-});
+routes.use(
+  cors({
+    origin: ['https://be-greetech.onrender.com', 'http://localhost:3000'],
+    methods: ['GET', 'POST'],
+  })
+);
+
 
 // handle form or post method
 routes.use(express.urlencoded({ extended: false, limit: '3mb' }));
