@@ -65,7 +65,7 @@ routes.get('/product/detail/:id', async (req, res) => {
 });
 
 // routes handle post request from user
-routes.post('/product/add', [upload.single('img_product'), check('noHp_user', 'use Indonesian format!').isMobilePhone('id-ID')], async (req, res) => {
+routes.post('/product/add', [upload.single('img_product'), check('noHp_user', 'Please Use Indonesian format for Phone Number').isMobilePhone('id-ID')], async (req, res) => {
   // validation image
   const imgFile = req.file.originalname;
   const imgChunk = imgFile.split('.');
@@ -76,7 +76,7 @@ routes.post('/product/add', [upload.single('img_product'), check('noHp_user', 'u
   if (!result.isEmpty()) {
     res.status(400).json({
       error: true,
-      message: result.array(),
+      message: result.errors[0].msg,
     });
   } else if (!extImg.includes(ext)) {
     res.status(400).json({
