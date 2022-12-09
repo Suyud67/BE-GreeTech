@@ -5,7 +5,6 @@
 - Hosting API [Render](render.com)
 
 ## How to use this API?
-  ### Back-End
   Main URL: https://be-greetech.onrender.com <br/>
   You can use this command for using the API:
   - `/products` get all plant product
