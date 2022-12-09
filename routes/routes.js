@@ -7,19 +7,12 @@ const routes = express();
 // import Product
 const Products = require('../model/products');
 
-// config cors in express
-routes.use(cors());
-
 // handle form or post method
 routes.use(bodyParser.urlencoded({ extended: true }));
 
 // setup cors
 routes.use(cors());
-// {
-//   origin: '*',
-//   methods: ['GET', 'POST', 'OPTIONS'],
-//   allowedHeaders: ['Accept', 'Content-Type', 'Authorization'],
-// }
+
 // setup multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
