@@ -11,8 +11,8 @@
   - `/product/detail/:id` get a plant product by id product
   - `/product/add` add a plant product
   
-  ### Handle POST Request in Front-End
-  In front-end use FormData() to insert the data form </br>
+  ### Handle POST Request
+  To insert data form use FormData() and you dont need to use `enctype="multipart/data-form` in your form</br>
   ```
   const product = new FormData();
   product.append(fieldName, value) // this is for add your data from field form
