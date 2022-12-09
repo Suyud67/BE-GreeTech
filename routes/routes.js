@@ -7,6 +7,9 @@ const routes = express();
 // import Product
 const Products = require('../model/products');
 
+// config cors in express
+routes.use(cors());
+
 // handle form or post method
 routes.use(bodyParser.urlencoded({ extended: true }));
 
