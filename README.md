@@ -23,7 +23,7 @@
   const product = new FormData();
   product.append(fieldName, objectImg, objectImgName)
   // to get objectImg use files[0] on your field input (type="file")
-  // to get obejctImgName use files[0].name from obejct objectImg
+  // to get obejctImgName use files[0].name from object objectImg
   ```
   example:
   ```
